@@ -9,8 +9,8 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import cypress-xpath synyax:
-require('cypress-xpath')
+// Import cypress-xpath
+import 'cypress-xpath'
 
-// Import commands.js using CommonJS syntax:
-require('./commands')
+// Import commands.js
+import './commands'

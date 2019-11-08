@@ -105,6 +105,30 @@ Read more: https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-dock
 
 ## Features
 
+### Drupal Collection
+
+#### drupalLogin( username , password ) 
+Begins the user's authenticated session.
+```JavaScript
+cy.drupalLogin('admin', 'admin')
+```
+
+#### drupalLogout() 
+Ends the user's authenticated session.
+```JavaScript
+cy.drupalLogout()
+```
+
+#### drupalDrushCommand( command )
+Issues a drush command.
+
+The command can be passed as string or an array. 
+```JavaScript
+cy.drupalDrushCommand('status');
+
+cy.drupalDrushCommand(['upwd', 'admin', 'admin']);
+```
+
 ### `xpath` command
 
 Ref: https://github.com/cypress-io/cypress-xpath/blob/master/README.md

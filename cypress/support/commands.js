@@ -1,5 +1,5 @@
 // ***********************************************
-// Various custom commands and overwrite existing 
+// Various custom commands and overwrite existing
 // commands.
 //
 // For more comprehensive examples of custom
@@ -22,3 +22,39 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+// Drupal login
+Cypress.Commands.add("drupalLogin", (user, password) => {
+    return cy.request({
+        method: 'POST',
+        url: '/user/login',
+        form: true,
+        body: {
+            name: user,
+            pass: password,
+            form_id: 'user_login_form'
+        }
+    });
+});
+
+// Drupal logout
+Cypress.Commands.add('drupalLogout', () => {
+    return cy.request('/user/logout');
+});
+
+// Drupal drush command
+Cypress.Commands.add("drupalDrushCommand", (command) => {
+    var cmd = Cypress.env('drupalDrushCmdLine');
+
+    if (cmd == null) {
+        cmd = 'drush %command'
+    }
+
+    if( typeof command === 'string' ) {
+        command = [ command ];
+    }
+
+    const execCmd = cmd.replace('%command', command.join(' '));
+
+    return cy.exec(execCmd);
+});
