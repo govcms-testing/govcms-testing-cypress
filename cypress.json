@@ -1,1 +1,6 @@
-{}
+{
+  "env": {
+    "drupalSuperUser": "admin",
+    "drupalSuperUserPassword": "password"
+  }
+}
