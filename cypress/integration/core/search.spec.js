@@ -1,29 +1,36 @@
-describe('Site search', function () {
-    it('Check search block visibility', function () {
-        cy.visit('https://www.govcms.gov.au/')
+describe("Site search", function() {
+  it("Check search block visibility", function() {
+    cy.visit("https://www.govcms.gov.au/");
 
-        cy.get('form#views-exposed-form-content-search-page-1').should('be.visible')
-    })
+    cy.get("form#views-exposed-form-content-search-page-1").should(
+      "be.visible"
+    );
+  });
 
-    it('Submit "search form" without keyword navigates to a new url', function () {
-        cy.visit('https://www.govcms.gov.au/')
+  it('Submit "search form" without keyword navigates to a new url', function() {
+    cy.visit("https://www.govcms.gov.au/");
 
-        cy.get('form#views-exposed-form-content-search-page-1').submit()
+    cy.get("form#views-exposed-form-content-search-page-1").submit();
 
-        cy.url().should('include', '/search?keys=')
+    cy.url().should("include", "/search?keys=");
 
-        cy.get('.view-content-search').should('contain', 'No results were found')
-    })
+    cy.get(".view-content-search").should("contain", "No results were found");
+  });
 
-    it('Submit "search form" with keyword "GovCMS"', function () {
-        cy.visit('https://www.govcms.gov.au/')
+  it('Submit "search form" with keyword "GovCMS"', function() {
+    cy.visit("https://www.govcms.gov.au/");
 
-        cy.get('form#views-exposed-form-content-search-page-1 [name=keys]').type('GovCMS')
+    cy.get("form#views-exposed-form-content-search-page-1 [name=keys]").type(
+      "GovCMS"
+    );
 
-        cy.get('form#views-exposed-form-content-search-page-1').submit()
+    cy.get("form#views-exposed-form-content-search-page-1").submit();
 
-        cy.url().should('include', '/search?keys=GovCMS')
+    cy.url().should("include", "/search?keys=GovCMS");
 
-        cy.get('.view-content-search').should('contain', 'result(s) found, displaying')
-    })
-})
+    cy.get(".view-content-search").should(
+      "contain",
+      "result(s) found, displaying"
+    );
+  });
+});
