@@ -1,0 +1,57 @@
+version: "3"
+services:
+  dind:
+    container_name: govcms-testing-dind
+    image: govcms-testing/dind
+    build:
+      context: .
+      dockerfile: $PWD/.docker/Dockerfile.dind
+    volumes:
+       - /var/lib/docker
+    privileged: true
+    restart: always
+    ports:
+      - "8888:8080"
+    networks:
+      govcms-testing:
+        aliases:
+          - govcms-testing-dind
+
+  builder:
+    container_name: govcms-testing-builder
+    image: govcms-testing/builder
+    build:
+      context: .
+      dockerfile: $PWD/.docker/Dockerfile.builder
+
+  govcms:
+    container_name: govcms-testing-govcms
+    image: govcms-testing/govcms
+    build:
+      context: .
+      dockerfile: $PWD/.docker/Dockerfile.govcms
+    tty: true
+    environment:
+      - DOCKER_HOST=tcp://govcms-testing-dind:2375
+    restart: always
+    networks:
+      - govcms-testing
+
+  e2e:
+    container_name: govcms-testing-cypress
+    image: govcms-testing/cypress
+    build:
+      context: .
+      dockerfile: $PWD/.docker/Dockerfile.cypress
+    depends_on:
+      - govcms
+    volumes:
+      - ./cypress:/app/cypress
+      - ./cypress.json:/app/cypress.json
+    environment:
+      - CYPRESS_baseUrl=http://govcms
+
+networks:
+  govcms-testing:
+    external:
+      name: govcms-testing-govcms

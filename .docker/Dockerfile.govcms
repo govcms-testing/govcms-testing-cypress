@@ -1,0 +1,11 @@
+FROM govcms-testing/builder
+
+RUN apk add --no-cache --virtual=.build-dependencies git \
+    && git clone https://github.com/govCMS/govCMS8.git app \
+    && apk del .build-dependencies
+
+WORKDIR /app
+
+COPY ./.docker/conf/docker-compose.yml docker-compose.yml
+
+RUN cp .env.default .env
