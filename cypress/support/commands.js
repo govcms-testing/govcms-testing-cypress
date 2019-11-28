@@ -37,6 +37,17 @@ Cypress.Commands.add("drupalLogin", (user, password) => {
     });
 });
 
+// Drupal login
+Cypress.Commands.add("login", () => {
+  cy.visit("https://govcms-testing.govcms.gov.au/user/login");
+  cy.get ("#edit-name")
+    .type ("")
+  cy.get ("#edit-pass")
+    .type ("{enter}")
+
+})
+
+
 // Drupal logout
 Cypress.Commands.add('drupalLogout', () => {
     return cy.request('/user/logout');
