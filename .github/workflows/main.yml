@@ -32,7 +32,7 @@ jobs:
           docker-compose up -d --build
       - name: Install site
         run: |
-          docker-compose exec cli dockerize -wait tcp://mariadb:3306 -timeout 1m
+          docker-compose exec -T cli dockerize -wait tcp://mariadb:3306 -timeout 1m
           ahoy install
       - name: Get site and module version status
         run: |
