@@ -1,0 +1,15 @@
+---
+ahoyapi: v2
+
+commands:
+  up:
+    usage: Build project.
+    cmd: docker-compose up -d "$@"
+
+  build:
+    usage: Build project.
+    cmd: docker-compose up -d --build "$@"
+
+  config:
+    usage: Show Docker configs.
+    cmd: docker-compose config

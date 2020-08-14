@@ -1,0 +1,22 @@
+version: "3.5"
+
+volumes:
+  cypress: {}
+
+services:
+  cypress:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile.cypress
+      args:
+        CYPRESS_VERSION: ${CYPRESS_VERSION:-}
+      shm_size: "2gb"
+      cache_from:
+        - cypress/included:${CYPRESS_VERSION:-}
+    image: govcmstesting/cypress
+    ipc: host
+    working_dir: /e2e
+    volumes:
+      - ./:/e2e
+    environment:
+      - CYPRESS_baseUrl=${CYPRESS_BASEURL:-https://govcms-testing.local}
