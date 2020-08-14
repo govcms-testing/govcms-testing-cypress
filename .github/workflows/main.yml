@@ -1,0 +1,26 @@
+name: Cypress end-to-end tests for MOMS
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Install required packages
+        run: |
+          sudo wget -q https://github.com/ahoy-cli/ahoy/releases/download/2.0.0/ahoy-bin-`uname -s`-amd64 -O /usr/local/bin/ahoy
+          sudo chown $USER /usr/local/bin/ahoy
+          chmod +x /usr/local/bin/ahoy
+      - name: Start amazeeio-network
+        run: docker network prune -f && docker network inspect amazeeio-network >/dev/null || docker network create amazeeio-network
+      - name: Build project
+        run: |
+          sed -i -e "/###/d" docker-compose.yml
+          cp .env.default .env
+          ahoy build
+          ahoy install
+      - name: Get site and module version status
+        run: |
+          docker-compose exec -T cli php -v
+          docker-compose exec -T cli drush st
+          docker-compose exec -T cli drush pml
