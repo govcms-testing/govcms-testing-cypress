@@ -30,6 +30,7 @@ jobs:
           sed -i -e "/###/d" docker-compose.yml
           cp .env.default .env
           ahoy build
+          docker-compose exec cli dockerize -wait tcp://mariadb:3306 -timeout 1m
           ahoy install
       - name: Get site and module version status
         run: |
