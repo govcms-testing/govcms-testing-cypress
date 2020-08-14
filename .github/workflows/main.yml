@@ -1,7 +1,19 @@
-name: Cypress end-to-end tests for MOMS
+name: Cypress end-to-end tests for GovCMS
 on: [push]
 jobs:
   build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Build project
+        run: yarn
+      - name: Get package version status
+        run: yarn outdated
+  test:
+    name: Test GovCMS site
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,3 +36,12 @@ jobs:
           docker-compose exec -T cli php -v
           docker-compose exec -T cli drush st
           docker-compose exec -T cli drush pml
+      - name: Run Cypress tests
+        run: |
+          yarn install --frozen-lockfile
+          ahoy test-cypress-run
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
