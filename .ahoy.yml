@@ -44,11 +44,7 @@ commands:
 
   test-cypress-run:
     usage: Run Cypress tests.
-    cmd: docker-compose up --exit-code-from cypress
-
-  test-cypress-open:
-    usage: Run tests with interactive mode.
-    cmd: docker-compose -f docker-compose.yml -f cy-open.yml up --exit-code-from cypress
+    cmd: docker-compose run cypress
 
   mysql-import:
     usage: Pipe in a sql file.  `ahoy mysql-import local.sql`
