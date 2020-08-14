@@ -2,6 +2,8 @@
 
 Cypress end-to-end tests for GovCMS distribution
 
+![Cypress end-to-end tests for GovCMS](https://github.com/govcms-testing/govcms-testing-cypress/workflows/Cypress%20end-to-end%20tests%20for%20GovCMS/badge.svg?branch=master)
+
 ## Docker setup with Ahoy
 
 ### Requirements
