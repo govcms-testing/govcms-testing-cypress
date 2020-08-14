@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: cypress/base:12.13.0
+      - image: cypress/base:latest
         environment:
           TERM: xterm
     working_directory: ~/app
@@ -28,7 +28,7 @@ jobs:
           command: yarn lint || true
       - run:
           name: Running E2E tests
-          command: $(yarn bin)/cypress run
+          command: $(yarn bin)/cypress
       - store_artifacts:
           path: cypress/videos
       - store_artifacts:

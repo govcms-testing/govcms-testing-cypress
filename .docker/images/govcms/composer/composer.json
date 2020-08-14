@@ -1,0 +1,53 @@
+{
+    "name": "govcms/govcms-testing",
+    "description": "GovCMS testing for the GovCMS8 Drupal Distribution",
+    "keywords": ["GovCMS"],
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.govcms.gov.au",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "require": {
+        "govcms-poc/govcms": "2.x-dev"
+    },
+    "require-dev": {
+        "drush/drush": "~10"
+    },
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "web/"
+            }
+        },
+        "installer-types": ["bower-asset", "npm-asset"],
+        "installer-paths": {
+            "web/core": ["type:drupal-core"],
+            "web/libraries/{$name}": ["type:drupal-library", "type:bower-asset", "type:npm-asset"],
+            "web/modules/contrib/{$name}": ["type:drupal-module"],
+            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+            "web/themes/contrib/{$name}": ["type:drupal-theme"],
+            "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
+            "web/modules/custom/{$name}": ["type:drupal-custom-module"],
+            "web/themes/custom/{$name}": ["type:drupal-custom-theme"]
+        },
+        "enable-patching": true
+    },
+    "config": {
+        "bin-dir": "bin/",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "scripts": {
+        "nuke": "rm -r -f composer.lock bin web vendor"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -9,7 +9,7 @@ let runTestCases = (viewport, authenticated = 'anonymous') => {
     })
 }
 
-describe('Check site administrator', () => {
+describe('Check super user(UID 1)', () => {
     viewports.forEach((viewport) => {
         context(`Check ${viewport} screen login with correct details`, function () {
             before(() => {

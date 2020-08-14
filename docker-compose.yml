@@ -1,9 +1,75 @@
 version: "3.5"
 
+x-volumes:
+  &default-volumes
+    volumes:
+      - app:/app/
+
+x-environment:
+  &default-environment
+    LAGOON_ROUTE: ${LOCALDEV_URL:-http://govcms-testing.docker.amazee.io}
+
 volumes:
+  app: {}
   cypress: {}
 
 services:
+  cli: # cli container, will be used for executing composer and any local commands (drush, drupal, etc.)
+    build:
+      context: .
+      dockerfile: $PWD/.docker/Dockerfile.govcms
+    image: govcmstesting/govcms
+    <<: *default-volumes
+    environment:
+      <<: *default-environment
+
+  nginx:
+    build:
+      context: .
+      dockerfile: $PWD/.docker/Dockerfile.nginx-drupal
+      args:
+        CLI_IMAGE: govcmstesting/govcms
+    image: govcmstesting/nginx-drupal
+    << : *default-volumes
+    environment:
+      << : *default-environment
+    networks:
+      - amazeeio-network
+      - default
+
+  php:
+    build:
+      context: .
+      dockerfile: $PWD/.docker/Dockerfile.php
+      args:
+        CLI_IMAGE: govcmstesting/govcms
+    image: govcmstesting/php
+    << : *default-volumes
+    environment:
+      << : *default-environment
+
+  mariadb:
+    build:
+      context: .
+      dockerfile: $PWD/.docker/Dockerfile.mariadb-drupal
+    image: govcmstesting/mariadb-drupal
+    ports:
+      - "3306" # Find port on host with `docker-compose port mariadb 3306`
+    environment:
+      << : *default-environment
+
+  solr:
+    build:
+      context: .
+      dockerfile: $PWD/.docker/Dockerfile.solr
+      args:
+        CLI_IMAGE: govcmstesting/govcms
+    image: govcmstesting/solr
+    ports:
+      - "8983" # Find port on host with `docker-compose port solr 8983`
+    environment:
+      << : *default-environment
+
   cypress:
     build:
       context: .
@@ -14,9 +80,15 @@ services:
       cache_from:
         - cypress/included:${CYPRESS_VERSION:-}
     image: govcmstesting/cypress
+    depends_on:
+      - nginx
     ipc: host
     working_dir: /e2e
     volumes:
       - ./:/e2e
     environment:
-      - CYPRESS_baseUrl=${CYPRESS_BASEURL:-https://govcms-testing.local}
+      - CYPRESS_baseUrl=${CYPRESS_BASEURL:-http://nginx}
+
+networks:
+  amazeeio-network:
+    external: true

@@ -13,4 +13,6 @@
 import 'cypress-xpath'
 
 // Import commands.js
-import './commands'
+import './cypress'
+import './misc'
+import './authenticate'
