@@ -87,7 +87,7 @@ services:
     volumes:
       - ./:/e2e
     environment:
-      - CYPRESS_baseUrl=${CYPRESS_BASEURL:-http://nginx}
+      - CYPRESS_baseUrl=${CYPRESS_BASEURL:-http://nginx:8080}
 
 networks:
   amazeeio-network:
