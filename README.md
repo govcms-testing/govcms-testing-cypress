@@ -2,7 +2,26 @@
 
 Cypress end-to-end tests for GovCMS distribution
 
-## Docker setup
+## Docker setup with Ahoy
+
+### Requirements
+* [Docker](https://docs.docker.com/install/)
+* [Homebrew](https://brew.sh/) (Optional but recommended, for MacOS)
+* [Ahoy](https://github.com/ahoy-cli/ahoy) (Optional)
+
+### Run examples
+
+#### Run all tests
+```
+ahoy run
+```
+
+#### Open Cypress UI
+```
+ahoy open
+```
+
+## Alternative, Docker setup
 
 ### Requirements
 * [Docker](https://docs.docker.com/install/)
@@ -23,36 +42,15 @@ docker run --ipc=host --cpus=2 -it -v $PWD:/e2e -w /e2e -e false cypress/include
 
 #### Explanation of the "docker run" command line arguments
 ```
- --ipc=host   = To prevent Electron Chromium error, see: https://github.com/cypress-io/cypress/issues/350
- --cpus=2     = To prevent Electron Chromium error
- -it          = interactive terminal
- -v $PWD:/e2e = map current folder to /e2e inside the container
- -w /e2e      = set working directly to /e2e
- 4.12.1        = Cypress version number - Optional, if omitted: will use the latest version
+ --ipc=host       = To prevent Electron Chromium error, see: https://github.com/cypress-io/cypress/issues/350
+ --cpus=2         = To prevent Electron Chromium error
+ -it              = interactive terminal
+ -v $PWD:/e2e     = map current folder to /e2e inside the container
+ -w /e2e          = set working directly to /e2e
+<CYPRESS_VERSION> = Cypress version number - Optional, if omitted: will use the latest version
  ```
 
 Read more: https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command/
-
----
-
-## Alternative, Docker setup with Ahoy
-
-### Requirements
-* [Ahoy](https://github.com/ahoy-cli/ahoy) (Optional)
-
-### Run examples
-
-#### Run all tests
-```
-ahoy run
-```
-
-#### Open Cypress UI
-```
-ahoy open
-```
-
----
 
 ## Alternative, non-Docker method: Yarn setup
 
@@ -84,8 +82,6 @@ yarn run cypress run
 ```
 yarn run cypress run --spec cypress/integration/search/search.spec.js
 ```
-
----
 
 ## Features
 
