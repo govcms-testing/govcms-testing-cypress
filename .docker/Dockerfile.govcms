@@ -1,12 +1,11 @@
-ARG COMPOSER_IMAGE
-
-FROM ${COMPOSER_IMAGE} as composer
 FROM amazeeio/php:7.4-cli-drupal
 
 # Add necessary files.
 
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY --from=composer /app /app
+COPY .docker/images/govcms/composer/composer.json /app/composer.json
+
+ENV COMPOSER_MEMORY_LIMIT=-1
+RUN composer install -d /app && composer clearcache
 
 # Add dockerize.
 
