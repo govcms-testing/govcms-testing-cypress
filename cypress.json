@@ -1,6 +1,29 @@
 {
   "env": {
-    "drupalSuperUser": "admin",
-    "drupalSuperUserPassword": "password"
+    "baseUrl": "https://govcms-testing.govcms.gov.au",
+    "blacklistHosts": ["www.google-analytics.com"],
+    "chromeWebSecurity": false,
+    "env": {
+      "user": {
+        "administrator": {
+          "username": "administrator",
+          "password": "password"
+        },
+        "approver": {
+          "username": "approver",
+          "password": "password"
+        },
+        "author": {
+          "username": "author",
+          "password": "password"
+        },
+        "super": {
+          "username": "admin",
+          "password": "password"
+        }
+      }
+    },
+    "video": false,
+    "viewports": ["macbook-15", "iphone-6"]
   }
 }
