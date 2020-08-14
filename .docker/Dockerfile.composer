@@ -1,0 +1,13 @@
+FROM composer:2
+
+RUN apk update \
+    && apk add --no-cache libpng libpng-dev \
+    && docker-php-ext-install -j4 bcmath gd \
+    && apk del libpng-dev
+
+WORKDIR /app
+
+COPY .docker/images/govcms/composer/composer.json /app/composer.json
+
+ENV COMPOSER_MEMORY_LIMIT=-1
+RUN composer install -d /app && composer clearcache

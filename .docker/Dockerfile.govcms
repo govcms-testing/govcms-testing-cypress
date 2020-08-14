@@ -1,12 +1,14 @@
-FROM amazeeio/php:7.4-cli-drupal as builder
+ARG COMPOSER_IMAGE
 
-COPY .docker/images/govcms/composer/composer.json /app/
-
-ENV COMPOSER_MEMORY_LIMIT=-1
-RUN composer install -d /app
-
+FROM ${COMPOSER_IMAGE} as composer
 FROM amazeeio/php:7.4-cli-drupal
-COPY --from=builder /app /app
+
+# Add necessary files.
+
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=composer /app /app
+
+# Add dockerize.
 
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
@@ -14,10 +16,14 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 # Add composer bin to PATH
+
 ENV PATH="/app/bin:${PATH}"
 
 # Define where the Drupal Root is located
+
 ENV WEBROOT=web
+
+# Update settings.php.
 
 RUN mkdir -p /app/web/sites/default/files/private \
   && fix-permissions /home/.drush \
