@@ -1,4 +1,5 @@
 {
+  "baseUrl": "http://govcms-testing.docker.amazee.io/",
   "env": {
     "drupalSuperUser": "admin",
     "drupalSuperUserPassword": "password"
