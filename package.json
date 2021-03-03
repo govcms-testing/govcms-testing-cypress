@@ -2,11 +2,20 @@
   "name": "govcms-testing-cypress",
   "version": "1.0.0",
   "description": "Cypress integration for GovCMS distribution",
-  "license": "GPL-2.0",
-  "repository": "https://github.com/govCMS/govcms-testing-cypress",
-  "author": "Joseph Zhao <pandaski@outlook.com.au>",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.json,.eslintrc .",
+    "lint:fix": "yarn lint --fix",
+    "stop-only": "npx stop-only --skip .cy,node_modules --exclude e2e.coffee"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {
-    "cypress": "^4.12.1",
+    "cypress": "^6.5.0",
     "cypress-xpath": "^1.6.0"
   },
   "devDependencies": {
@@ -17,13 +26,9 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11"
   },
-  "scripts": {
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx,.json,.eslintrc .",
-    "lint:fix": "yarn lint --fix",
-    "stop-only": "npx stop-only --skip .cy,node_modules --exclude e2e.coffee"
-  },
+  "license": "GPL-2.0",
+  "repository": "https://github.com/govCMS/govcms-testing-cypress",
+  "author": "Joseph Zhao <pandaski@outlook.com.au>",
   "lint-staged": {
     "*.coffee": [
       "yarn stop-only --folder",
@@ -34,10 +39,5 @@
       "yarn eslint --fix",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
