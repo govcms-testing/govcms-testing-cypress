@@ -10,6 +10,11 @@ Cypress end-to-end tests for GovCMS distribution
 * [Docker](https://docs.docker.com/install/)
 * [Homebrew](https://brew.sh/) (Optional but recommended, for MacOS)
 * [Ahoy](https://github.com/ahoy-cli/ahoy) (Optional)
+* [pygmy](https://pygmy.readthedocs.io/) (Optional)
+
+**OR**
+
+* [Lando](https://docs.lando.dev/basics/installation.html#system-requirements) (Optional)
 
 ### Run examples
 

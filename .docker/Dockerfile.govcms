@@ -1,46 +1,15 @@
-FROM amazeeio/php:7.4-cli-drupal
+FROM uselagoon/php-7.4-cli-drupal:latest
 
-# Add necessary files.
-
-COPY .docker/images/govcms/composer/composer.json /app/composer.json
+COPY composer.json /app/composer.json
 
 ENV COMPOSER_MEMORY_LIMIT=-1
-RUN composer install -d /app && composer clearcache
-
-# Add dockerize.
-
-ENV DOCKERIZE_VERSION v0.6.1
-RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+RUN composer global remove hirak/prestissimo \
+    && composer selfupdate --2 \
+    && composer install -d /app \
+    && composer clearcache
 
 # Add composer bin to PATH
-
 ENV PATH="/app/bin:${PATH}"
 
 # Define where the Drupal Root is located
-
 ENV WEBROOT=web
-
-# Update settings.php.
-
-RUN mkdir -p /app/web/sites/default/files/private \
-  && fix-permissions /home/.drush \
-  && cp /app/web/sites/default/default.settings.php /app/web/sites/default/settings.php \
-  && { \
-    echo ; \
-    echo "\$databases['default']['default'] = array ("; \
-    echo "  'driver' => 'mysql',"; \
-    echo "  'database' => getenv('MARIADB_DATABASE') ?: 'drupal',"; \
-    echo "  'username' => getenv('MARIADB_USERNAME') ?: 'drupal',"; \
-    echo "  'password' => getenv('MARIADB_PASSWORD') ?: 'drupal',"; \
-    echo "  'host' => getenv('MARIADB_HOST') ?: 'mariadb',"; \
-    echo "  'port' => '3306',"; \
-    echo "  'prefix' => '',"; \
-    echo ");"; \
-    echo ; \
-    echo "\$settings['hash_salt'] = getenv('DRUPAL_HASH_SALT') ?: 'changeme';"; \
-    echo "\$settings['config_sync_directory'] = '/app/config/default';"; \
-    echo "\$settings['file_private_path'] = '/app/web/sites/default/files/private';"; \
-    } | tee -a "/app/web/sites/default/settings.php" \
-    && chmod 444 /app/web/sites/default/settings.php

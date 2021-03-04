@@ -1,0 +1,6 @@
+name: govcms
+recipe: lagoon
+config:
+  flavor: drupal
+  build:
+    - composer install
