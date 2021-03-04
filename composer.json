@@ -17,6 +17,9 @@
         "cweagans/composer-patches": "^1.7",
         "govcms/govcms": "dev-release/2.x/2.0.0-beta1"
     },
+    "require-dev": {
+        "drush/drush": "~10"
+    },
     "extra": {
         "enable-patching": true,
         "composer-exit-on-patch-failure": true,
