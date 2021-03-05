@@ -80,6 +80,9 @@ services:
       args:
         CLI_IMAGE: govcmstesting/govcms
     image: govcmstesting/solr
+    labels:
+      lagoon.type: solr
+      lando.type: solr
     ports:
       - "8983" # Find port on host with `docker-compose port solr 8983`
     environment:
@@ -95,6 +98,8 @@ services:
       cache_from:
         - cypress/included:${CYPRESS_VERSION:-}
     image: govcmstesting/cypress
+    labels:
+      lando.type: node
     depends_on:
       - nginx
     ipc: host
