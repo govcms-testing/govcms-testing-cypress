@@ -1,0 +1,13 @@
+name: govcms
+recipe: lagoon
+config:
+  flavor: drupal
+  build:
+    - composer install
+porxy:
+  cli:
+    - local.govcms.gov.au
+tooling:
+  cypress:
+    service: cypress
+    cmd: yarn cypress run

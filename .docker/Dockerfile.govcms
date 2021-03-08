@@ -1,25 +1,23 @@
-FROM amazeeio/php:7.4-cli-drupal
+FROM uselagoon/php-7.4-cli-drupal:latest
 
-# Add necessary files.
-
-COPY .docker/images/govcms/composer/composer.json /app/composer.json
+COPY composer.json /app/composer.json
 
 ENV COMPOSER_MEMORY_LIMIT=-1
-RUN composer install -d /app && composer clearcache
+RUN composer global remove hirak/prestissimo \
+    && composer selfupdate --2 \
+    && composer install -d /app \
+    && composer clearcache
 
 # Add dockerize.
-
 ENV DOCKERIZE_VERSION v0.6.1
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
     && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 # Add composer bin to PATH
-
 ENV PATH="/app/bin:${PATH}"
 
 # Define where the Drupal Root is located
-
 ENV WEBROOT=web
 
 # Update settings.php.
