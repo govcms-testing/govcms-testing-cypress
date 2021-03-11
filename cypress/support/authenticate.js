@@ -10,8 +10,8 @@ Cypress.Commands.add("drupalLogin", (user, password) => {
         url: '/user/login',
         form: true,
         body: {
-            "name": user,
-            "pass": password,
+            name: user,
+            pass: password,
             form_id: 'user_login_form'
         }
     });
@@ -27,7 +27,11 @@ Cypress.Commands.add("drupalDrushCommand", (command) => {
     var cmd = Cypress.env('drupalDrushCmdLine');
 
     if (cmd == null) {
-        cmd = 'lando drush %command'
+        if(Cypress.env('localEnv') === "lando"){
+            cmd = 'lando drush %command'
+        }else{
+            cmd = 'drush %command'
+        }
     }
 
     if (typeof command === 'string') {
@@ -45,7 +49,11 @@ Cypress.Commands.add("composerCommand", (command) => {
     var cmd = Cypress.env('composerCmdLine');
 
     if (cmd == null) {
-        cmd = 'lando composer %command'
+        if(Cypress.env('localEnv') === "lando"){
+            cmd = 'lando composer %command'
+        }else{
+            cmd = 'composer %command'
+        }
     }
 
     if (typeof command === 'string') {
@@ -54,5 +62,5 @@ Cypress.Commands.add("composerCommand", (command) => {
 
     const execCmd = cmd.replace('%command', command.join(' '));
 
-    return cy.exec(execCmd);
+    return cy.exec(execCmd)
 });

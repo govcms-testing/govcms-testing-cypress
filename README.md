@@ -28,6 +28,20 @@ ahoy run
 ahoy open
 ```
 
+## Alternative, Lando setup
+Get Lando up and running
+```
+composer install && lando start
+```
+Run all your Cypress tests
+```
+npx cypress run
+```
+Open your Cypress tests
+```
+npx cypress open
+```
+
 ## Alternative, Docker setup
 
 ### Requirements
@@ -91,6 +105,17 @@ yarn run cypress run --spec cypress/integration/search/search.spec.js
 ```
 
 ## Features
+
+### Environment variables
+The variables can be found in the `cypress.json`
+- `baseUrl` tells Cypress what URL to test on, this can be updated in your test dynamically.
+```
+"baseUrl": "http://govcms-testing.docker.amazee.io",
+```
+- `localEnv` tells cypress what environment you are using locally ie. Ahoy or Lando 
+```
+"localEnv": "ahoy"
+```
 
 ### Drupal Collection
 

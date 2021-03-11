@@ -1,11 +1,11 @@
 {
-  "baseUrl": "https://govcms9.lndo.site:444/",
+  "baseUrl": "https://govcms.lndo.site:4433/",
   "blockHosts": [
     "www.google-analytics.com"
   ],
   "chromeWebSecurity": false,
   "env": {
-    "url": "baseUrl",
+    "localEnv": "lando",
     "user": {
       "administrator": {
         "username": "administrator",

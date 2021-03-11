@@ -2,6 +2,9 @@
 cypress/videos
 cypress/screenshots
 
+#files created by tests
+cypress/fixtures/currentComposer.json
+
 # Logs
 logs
 *.log
